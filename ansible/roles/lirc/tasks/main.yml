@@ -1,0 +1,13 @@
+---
+- name: Copy LIRCD configuration file
+  copy:
+    src: lirc_options.conf
+    dest: /etc/lirc/lirc_options.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Install LIRC apt package
+  apt:
+    name: lirc
+    state: present
