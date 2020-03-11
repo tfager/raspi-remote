@@ -1,0 +1,14 @@
+[Unit]
+Description=LIRC instance on /dev/lirc1
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/lircd --driver=default \
+                          --device=/dev/lirc1 \
+                          --output=/var/run/lirc/lircd-lirc1 \
+                          --pidfile=/run/lirc/dont-use-lirc1.pid \
+                          --nodaemon
+
+[Install]
+WantedBy=multi-user.target
