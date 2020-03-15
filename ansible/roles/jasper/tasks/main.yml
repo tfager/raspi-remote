@@ -1,0 +1,53 @@
+---
+- name: Install Jasper Requirements with apt
+  apt:
+    name: ["vim", "git-core", "python-dev", "python-pip", "bison", "libasound2-dev", "libportaudio-dev",
+           "python-pyaudio", "espeak", "subversion", "autoconf", "libtool", "automake", "gfortran",  "g++"]
+    # "python-pymad" if google
+    state: present
+
+- name: Check out jasper
+  git:
+    repo: https://github.com/jasperproject/jasper-client.git
+    dest: "{{ jasper_dir }}"
+
+- name: Install jasper python requirements
+  pip:
+    requirements: "{{ jasper_dir }}/client/requirements.txt"
+
+- name: Make directory for jasper dependencies
+  file:
+    path: "{{ jasper_deps_dir }}"
+    state: directory
+    owner: pi
+    group: pi
+
+- name: Copy dependencies installer script
+  copy:
+    src: install_local_stt.sh
+    dest: "{{ jasper_deps_dir }}"
+    owner: pi
+    group: pi
+    mode: "u=rwx,g=rx,o=rx"
+
+- name: Run dependencies installer
+  shell: ./install_local_stt.sh
+  args:
+    chdir: "{{ jasper_deps_dir }}"
+  creates: "{{ jasper_deps_dir }}/phonetisaurus"
+
+  # TODO: fix problems
+  # - openfst does not compile
+  # - Phonetisaurus not found any more, this is: https://github.com/AdolfVonKleist/Phonetisaurus
+
+- name: Copy jasper diagnose.py patch file
+  copy:
+    src: diagnose_pip_problem.patch
+    dest: "{{ jasper_dir }}"
+    owner: pi
+    group: pi
+
+- name: Patch diagnose.py for this issue: https://github.com/jasperproject/jasper-client/pull/687
+  patch:
+    src: "{{ jasper_dir }}/diagnose_pip_problem.patch"
+    dest: "{{ jasper_dir }}/client/diagnose.py"

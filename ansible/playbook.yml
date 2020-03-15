@@ -3,5 +3,7 @@
   remote_user: pi
   become: yes
   roles:
+  - jasper
   - gpio-ir
   - lirc
+#  - piscope
