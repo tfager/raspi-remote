@@ -6,7 +6,7 @@
     owner: root
     group: root
 
-- name: Copy LIRCD configuration file
+- name: Copy LIRCD options file
   copy:
     src: "lirc_options.conf"
     dest: "/etc/lirc/lirc_options.conf"
@@ -14,10 +14,24 @@
     group: root
     mode: '0644'
 
+- name: Apt upgrade
+  apt:
+    update-cache: yes
+    upgrade: yes
+
 - name: Install LIRC apt package
   apt:
     name: lirc
     state: present
+
+- name: Copy LIRCD configuration file in place
+  copy:
+    src: "/etc/lirc/lircd.conf.dist"
+    dest: "/etc/lirc/lircd.conf"
+    remote_src: true
+    owner: root
+    group: root
+    mode: '0644'
 
 - name: Copy LIRCD remote configurations
   copy:

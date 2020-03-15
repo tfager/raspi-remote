@@ -1,0 +1,37 @@
+- name: Install pigpiod and GTK for piscope
+  apt:
+    name: ['pigpio', 'libgtk-3-dev']
+    state: present
+    update-cache: yes
+
+- name: Run pgipiod
+  command: pigpiod
+
+- name: Make directory for piscope
+  file:
+    path: "{{ piscope_dir }}"
+    state: directory
+    owner: pi
+    group: pi
+
+- name: Download piscope
+  get_url:
+    url: http://abyz.me.uk/rpi/pigpio/piscope.tar
+    dest: "{{ piscope_dir }}"
+    mode: '0440'
+
+- name: Untar piscope
+  unarchive:
+    src: "{{ piscope_dir }}/piscope.tar"
+    remote_src: true
+    dest: "{{ piscope_dir }}"
+
+- name: Make piscope
+  command:
+    argv:
+      - make
+      - hf
+  args:
+    chdir: "{{ piscope_dir }}/PISCOPE"
+
+
