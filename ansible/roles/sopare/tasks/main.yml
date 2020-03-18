@@ -1,0 +1,21 @@
+- name: Install Sopare requirements via apt
+  apt:
+    name: ['build-essential','python-pyaudio','python-numpy','python-scipy','python-matplotlib']
+    state: present
+    update-cache: yes
+
+- name: Download Sopare
+  git:
+    repo: https://github.com/bishoph/sopare
+    dest: "{{ sopare_dir }}"
+
+- name: Make dirs for sopare
+  file:
+    path: "{{ item }}"
+    owner: pi
+    group: pi
+    state: directory
+  with_items:
+  - "{{ sopare_dir }}/tokens"
+  - "{{ sopare_dir }}/samples"
+
