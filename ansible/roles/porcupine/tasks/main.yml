@@ -1,0 +1,21 @@
+---
+- name: Install apt requirements for porcupine
+  apt:
+    name: ['python3-pip','libportaudio0','libportaudio2','libportaudiocpp0','portaudio19-dev','python3-pyaudio',
+           'python3-numpy','libatlas-base-dev']
+    state: present
+    update-cache: yes
+
+- name: Install porcupine
+  pip:
+    name: pvporcupine
+    executable: pip3
+
+- name: Set up asoundrc to avoid invalid sample rate errors
+  copy:
+    src: asoundrc
+    dest: "/home/pi/.asoundrc"
+
+- name: Find out correct audio device index
+  shell:
+    command: "python3 /usr/local/lib/python3.7/dist-packages/pvporcupine/demo/python/porcupine_demo_mic.py --show_audio_devices_info | grep usb_mic"

@@ -3,5 +3,6 @@
   remote_user: pi
   become: yes
   roles:
+  - porcupine
   - gpio-ir
   - lirc
