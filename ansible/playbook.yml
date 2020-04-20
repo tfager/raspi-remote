@@ -5,3 +5,4 @@
   roles:
   - gpio-ir
   - lirc
+  - node-red

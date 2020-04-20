@@ -1,0 +1,29 @@
+---
+- name: Download Node-Red installer
+  get_url:
+    url: "https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered"
+    dest: /home/pi/update-nodejs-and-nodered.sh
+    mode: '0755'
+
+- name: Run Node-Red installer
+  shell: "/home/pi/update-nodejs-and-nodered.sh --confirm-install"
+  args:
+    creates: /usr/bin/node-red
+  become: no
+
+- name: Install Node-Red plugins
+  npm:
+    name: "{{ item }}"
+    state: latest
+    path: "/home/pi/.node-red"
+  become: no
+  loop:
+    - node-red-contrib-lirc
+    - node-red-contrib-lirc2
+    - node-red-contrib-mpd
+
+- name: Enable Node-Red to start at startup
+  systemd:
+    name: nodered
+    state: started
+    enabled: yes
