@@ -1,0 +1,13 @@
+---
+- name: Install Mosquitto MQTT server
+  apt:
+    name: ['mosquitto','mosquitto-clients']
+    state: present
+    update-cache: yes
+
+- name: Enable Mosquitto to start at startup
+  systemd:
+    name: mosquitto
+    state: started
+    enabled: yes
+

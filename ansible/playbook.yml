@@ -3,6 +3,7 @@
   remote_user: pi
   become: yes
   roles:
-  - gpio-ir
-  - lirc
-  - node-red
+#  - gpio-ir
+#  - lirc
+#  - node-red
+  - mosquitto
