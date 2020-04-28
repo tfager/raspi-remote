@@ -1,0 +1,24 @@
+<html>
+<head>
+<script type="text/javascript">
+  function doAction(action) {
+    document.location.href="/action/"+ action;
+  }
+</script>
+<style type="text/css">
+h1 {  }
+body { background-color: #ffeb3b; font-family: Verdana, Arial, ans-serif; text-align: center}
+.bg { }
+.buttons { display: flex; flex-wrap: wrap; left: 20%; width: 60%; position: relative; }
+.button { background-color: #00a152; color: white; width: 40%; height: 8em; border-radius: 0.5em; font-weight: bold; font-size: 200%; margin: 5%;}
+</style>
+<body>
+  <div class="bg">
+    <h1>Remote Control</h1>
+    <div class="buttons">
+      {% for id,text in actions.items() %}
+          <button class="button" onClick='javascript:doAction("{{ id }}");'>{{ text  }}</button>
+      {% endfor %}
+      </div>
+</body>
+</html>

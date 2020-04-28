@@ -21,6 +21,8 @@
     - node-red-contrib-lirc
     - node-red-contrib-lirc2
     - node-red-contrib-mpd
+    - node-red-contrib-loop-processing
+    - node-red-node-ping
 
 - name: Enable Node-Red to start at startup
   systemd:

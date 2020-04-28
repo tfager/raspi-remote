@@ -1,0 +1,11 @@
+[Unit]
+Description=Remoteweb
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/remoteweb
+ExecStart=/usr/local/bin/gunicorn "remoteweb:create_app()" -b 0.0.0.0:8080
+
+[Install]
+WantedBy=multi-user.target
