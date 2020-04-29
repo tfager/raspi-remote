@@ -24,6 +24,12 @@
     - node-red-contrib-loop-processing
     - node-red-node-ping
 
+- name: Copy Node-Red config file
+  copy:
+    src: "flows_raspberrypi.json"
+    dest: "/home/pi/.node-red/"
+    mode: 0744
+
 - name: Enable Node-Red to start at startup
   systemd:
     name: nodered

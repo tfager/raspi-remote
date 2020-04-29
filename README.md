@@ -1,17 +1,24 @@
 # raspi-remote
 
-Raspberry Pi voice-controlled assistant powered by Jasper and LIRC.
+Raspberry Pi web-enabled remote control powered by LIRC, Node-Red and Mosquitto.
 
 This repository contains ansible configurations to install the required things into a
-Raspberry Pi with freshly flashed Raspbian.
+Raspberry Pi with freshly flashed Raspbian, and a tiny python web app to display
+a user interface.
 
 ## Preparations
 
 * install [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) to the RasPi
-* install ansible (`pip3 install -r requirements.txt` will do)
+* install ansible (`cd ansible; pip3 install -r requirements.txt` will do)
 * set up your SSH key to the Raspberry Pi
 
+Make sure your pi is accessible via ssh with name "raspberrypi.local" (or modify `inventory/default.yml`).
+
 ## Install
+
+In ansible directory:
+
+`ansible-playbook -i inventory/default.yml playbook.yml`
 
 ## Background
 

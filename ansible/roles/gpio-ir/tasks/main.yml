@@ -10,7 +10,7 @@
   lineinfile:
     path: /boot/config.txt
     regexp: '.*dtoverlay=gpio-ir-tx,.*'
-    line: dtoverlay=gpio-ir-tx,gpio_pin=17
+    line: dtoverlay=gpio-ir-tx,gpio_pin=27
   register: tx_result
 
 - name: Reboot immediately if there was a change.
