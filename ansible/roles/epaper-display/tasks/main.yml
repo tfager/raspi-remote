@@ -1,0 +1,24 @@
+---
+- name: Create directory for ePaper display app
+  file:
+    path: "{{ epaper_display_dir }}/lib/waveshare_epd"
+    state: directory
+    owner: pi
+    group: pi
+
+- name: Get ePaper display python library
+  get_url:
+    url: "{{ item }}"
+    dest: "{{ epaper_display_dir }}/lib/waveshare_epd"
+    mode: '0744'
+  loop:
+    - "https://raw.githubusercontent.com/waveshare/e-Paper/master/RaspberryPi%26JetsonNano/python/lib/waveshare_epd/epd2in7.py"
+    - "https://raw.githubusercontent.com/waveshare/e-Paper/master/RaspberryPi%26JetsonNano/python/lib/waveshare_epd/epdconfig.py"
+
+- name: Copy ePaper display files
+  copy:
+    src: "../../../../python/{{ item }}"
+    dest: "{{ epaper_display_dir }}"
+    mode: '0755'
+  loop:
+    - epaper_display.py
