@@ -1,0 +1,107 @@
+---
+- name: Enable SPI in boot config
+  lineinfile:
+    path: /boot/config.txt
+    regexp: '.*dtparam=spi=on'
+    line: "dtparam=spi=on"
+  register: spi_result
+
+- name: Reboot immediately if there was a change.
+  shell: "sleep 5 && reboot"
+  async: 1
+  poll: 0
+  when: spi_result is changed
+
+- name: Wait for the reboot to complete if there was a change.
+  wait_for_connection:
+    connect_timeout: 20
+    sleep: 5
+    delay: 5
+    timeout: 300
+  when: spi_result is changed
+
+- name: Create directory for ePaper HAT drivers
+  file:
+    path: "{{ epaper_dir }}"
+    state: directory
+    owner: pi
+    group: pi
+
+- name: Download ePaper HAT drivers
+  get_url:
+    url: "http://www.airspayce.com/mikem/bcm2835/bcm2835-1.60.tar.gz"
+    dest: "{{ epaper_dir }}"
+    mode: '0440'
+
+- name: Untar ePaper HAT drivers
+  unarchive:
+    src: "{{ epaper_dir }}/bcm2835-1.60.tar.gz"
+    remote_src: true
+    dest: "{{ epaper_dir }}"
+    creates: "{{ bcm_dir }}"
+
+- name: Configure ePaper HAT drivers
+  command:
+    argv:
+      - "./configure"
+  args:
+    chdir: "{{ bcm_dir }}"
+
+- name: Make ePaper HAT drivers
+  command:
+    argv:
+      - make
+  args:
+    chdir: "{{ bcm_dir }}"
+
+- name: Make check on ePaper HAT drivers
+  command:
+    argv:
+      - make
+      - check
+  args:
+    chdir: "{{ bcm_dir }}"
+
+- name: Install ePaper HAT drivers
+  command:
+    argv:
+      - make
+      - install
+    creates: "/usr/local/lib/libbcm2835.a"
+  args:
+    chdir: "{{ bcm_dir }}"
+
+- name: Create directory for WiringPi
+  file:
+    path: "{{ wiringpi_dir }}"
+    state: directory
+    owner: pi
+    group: pi
+
+- name: Get WiringPi
+  get_url:
+    url: "https://project-downloads.drogon.net/wiringpi-latest.deb"
+    dest: "{{ wiringpi_dir }}"
+    mode: "0440"
+
+- name: Install WiringPi
+  command:
+    argv:
+      - dpkg
+      - "-i"
+      - wiringpi-latest.deb
+    creates: "/usr/bin/gpio"
+  args:
+    chdir: "{{ wiringpi_dir }}"
+
+- name: Install apt components for ePaper HAT
+  apt:
+    name: ['python3-pil', 'python3-numpy']
+    state: present
+    update-cache: yes
+
+- name: Install python modules for ePaper HAT
+  pip:
+    name: ["RPi.GPIO", "spidev"]
+    state: present
+    executable: pip3

@@ -1,0 +1,4 @@
+---
+epaper_dir: "/home/pi/epaper"
+bcm_dir: "/home/pi/epaper/bcm2835-1.60"
+wiringpi_dir: "{{ epaper_dir }}/wiringpi"
