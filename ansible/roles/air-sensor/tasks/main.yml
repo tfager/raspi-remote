@@ -1,0 +1,12 @@
+---
+- name: Install libgpiod2
+  apt:
+    name: ['libgpiod2']
+    state: present
+    update-cache: yes
+
+- name: Install drivers for DHT22 humidity sensor
+  pip:
+    name: adafruit-circuitpython-dht
+    state: present
+    executable: pip3

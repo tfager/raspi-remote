@@ -1,0 +1,11 @@
+[Unit]
+Description=ePaper Display
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/epaper-display
+ExecStart=/usr/bin/python3 ./epaper_display.py
+
+[Install]
+WantedBy=multi-user.target

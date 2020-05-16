@@ -37,6 +37,16 @@ DC  | Green | 22 (GPIO25)
 RST | White | 11 (GPIO17)
 BUSY| Purple | 18 (GPIO24)
 
+### DHT22 humidity sensor
+
+This: https://ihmevekotin.fi/product/262_dht22-digitaalinen-l%C3%A4mp%C3%B6tila-ja-ilmankosteusanturi
+
+And connect (numbers counting from left to right, facing the text on DHT22):
+* 1 VCC - 5V (RasPi Pin 2)
+* 2 CTL - GPIO21 (RasPi Pin 40)
+* 3 not connected
+* 4 GND - GND (RasPi Pin 39)
+
 ## Software Setup
 
 * install [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) to the RasPi
