@@ -3,11 +3,12 @@
   remote_user: pi
   become: yes
   roles:
-  - gpio-ir
-  - lirc
-  - node-red
-  - mosquitto
-  - remoteweb
-  - epaper-hat
-  - air-sensor
-  - epaper-display
+  #- gpio-ir
+  #- lirc
+  #- node-red
+  #- mosquitto
+  #- remoteweb
+  #- epaper-hat
+  #- air-sensor
+  - deepspeech
+  #- epaper-display
