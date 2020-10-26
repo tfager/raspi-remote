@@ -10,6 +10,8 @@ mqtt_client.enable_logger()
 
 actions = {"music": "Play Music",
            "music_off": "Stop Music",
+           "volume_up": "Volume Up",
+           "volume_down": "Volume Down",
            "computer_audio": "Computer Audio",
            "netflix": "Netflix",
            "computer": "Computer Screen",
