@@ -23,6 +23,7 @@
     - node-red-contrib-mpd
     - node-red-contrib-loop-processing
     - node-red-node-ping
+    - node-red-contrib-sony-audio
 
 - name: Copy Node-Red config file
   copy:
@@ -33,5 +34,5 @@
 - name: Enable Node-Red to start at startup
   systemd:
     name: nodered
-    state: started
+    state: restarted
     enabled: yes

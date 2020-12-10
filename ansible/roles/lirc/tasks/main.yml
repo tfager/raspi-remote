@@ -18,11 +18,16 @@
   apt:
     update-cache: yes
     upgrade: yes
+  when: upgrade is defined
 
 - name: Install LIRC apt package
   apt:
     name: lirc
     state: present
+
+- name: Check if LIRCD has no config yet
+  stat: path=/etc/lirc/lircd.conf
+  register: lircd_conf
 
 - name: Copy LIRCD configuration file in place
   copy:
@@ -32,6 +37,7 @@
     owner: root
     group: root
     mode: '0644'
+  when: not lircd_conf.stat.exists
 
 - name: Copy LIRCD remote configurations
   copy:

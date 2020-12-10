@@ -16,9 +16,10 @@ actions = {"music": "Play Music",
            "netflix": "Netflix",
            "computer": "Computer Screen",
            "livetv": "Live TV",
-           "playstation": "Playstation",
+           "drums": "Drums",
            "chromecast": "Chromecast",
-           "tv_off": "TV Off"}
+           "tv_off": "TV Off"
+           }
 
 @app.route("/")
 def main():

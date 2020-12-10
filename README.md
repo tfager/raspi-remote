@@ -47,6 +47,12 @@ And connect (numbers counting from left to right, facing the text on DHT22):
 * 3 not connected
 * 4 GND - GND (RasPi Pin 39)
 
+### BangleJS Smartwatch
+
+I found one more thing to integrate in the RasPi-remote, which would be the
+[BangleJS smartwatch](https://banglejs.com/). It can be connected to MQTT with
+EspruinoHub as explained in [this tutorial](https://www.espruino.com/BLE+Node-RED).
+
 ## Software Setup
 
 * install [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) to the RasPi

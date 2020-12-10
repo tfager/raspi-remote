@@ -1,0 +1,43 @@
+- name: Install dependencies for BLE
+  apt:
+    name: ['bluetooth','bluez','libbluetooth-dev','libudev-dev']
+    state: present
+    update-cache: yes
+
+- name: Make directory for espruinohub
+  file:
+    path: "{{ espruinohub_dir }}"
+    state: directory
+    owner: pi
+    group: pi
+
+- name: Download espruinohub
+  git:
+    repo: 'https://github.com/espruino/EspruinoHub'
+    dest: "{{ espruinohub_dir }}"
+    version: master
+
+- name: Install node dependencies for espruinohub
+  npm:
+    path: "{{ espruinohub_dir }}"
+
+- name: Set cap_net_raw+eip on node
+  capabilities:
+    path: /usr/bin/node
+    capability: cap_net_raw+eip
+    state: present
+
+- name: Install init file for espruinohub
+  copy:
+    src: "espruinohub.service"
+    dest: "/etc/systemd/system/"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Start espruinohub
+  systemd:
+    name: espruinohub
+    state: started
+    enabled: yes
+
