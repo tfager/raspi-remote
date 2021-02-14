@@ -15,17 +15,20 @@
   git:
     repo: 'https://github.com/espruino/EspruinoHub'
     dest: "{{ espruinohub_dir }}"
+    force: yes
     version: master
 
 - name: Install node dependencies for espruinohub
   npm:
     path: "{{ espruinohub_dir }}"
 
-- name: Set cap_net_raw+eip on node
-  capabilities:
-    path: /usr/bin/node
-    capability: cap_net_raw+eip
-    state: present
+- name: Copy config file for espruinohub
+  copy:
+    src: "config.json"
+    dest: "{{ espruinohub_dir }}"
+    owner: pi
+    group: pi
+    mode: '0644'
 
 - name: Install init file for espruinohub
   copy:

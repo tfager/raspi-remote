@@ -24,12 +24,14 @@
     - node-red-contrib-loop-processing
     - node-red-node-ping
     - node-red-contrib-sony-audio
+    - node-red-contrib-lgtv
 
 - name: Copy Node-Red config file
   copy:
     src: "flows_raspberrypi.json"
     dest: "/home/pi/.node-red/"
     mode: 0744
+    force: no
 
 - name: Enable Node-Red to start at startup
   systemd:
