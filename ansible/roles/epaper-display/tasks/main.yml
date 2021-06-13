@@ -12,7 +12,8 @@
     dest: "{{ epaper_display_dir }}/lib/waveshare_epd"
     mode: '0744'
   loop:
-    - "https://raw.githubusercontent.com/waveshare/e-Paper/master/RaspberryPi%26JetsonNano/python/lib/waveshare_epd/epd2in7.py"
+    - "https://raw.githubusercontent.com/waveshare/e-Paper/master/RaspberryPi_JetsonNano/python/lib/waveshare_epd/epd2in7.py"
+    - "https://github.com/waveshare/e-Paper/blob/262640ae5ab36ac01ee712422e1471330adb4cc7/RaspberryPi%26JetsonNano/python/lib/waveshare_epd/epdconfig.py"
 # Using a patched version of epdconfig.py under python/lib
 # The fix is in a PR: https://github.com/waveshare/e-Paper/pull/71, so it may appear to the master someday
 #    - "https://raw.githubusercontent.com/waveshare/e-Paper/master/RaspberryPi%26JetsonNano/python/lib/waveshare_epd/epdconfig.py"

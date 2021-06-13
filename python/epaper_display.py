@@ -13,15 +13,12 @@ import time
 from PIL import Image,ImageDraw,ImageFont
 import board
 import adafruit_dht
+import RPi.GPIO as GPIO
 
-logging.basicConfig(level=logging.DEBUG)
-
-# Initial the dht device, with data pin connected to:
-logging.info("Starting DHT22 humidity sensor")
-dhtDevice = adafruit_dht.DHT22(board.D21)
-
-logging.info("Starting ePaper Displayer")
-epd = epd2in7.EPD()
+BUTTON1 = 5
+BUTTON2 = 6
+BUTTON3 = 13
+BUTTON4 = 19
 
 def center_text(draw, text, width, y, font):
     w, h = draw.textsize(text, font=font)
@@ -38,7 +35,7 @@ def read_humidity_sensor():
         return None
 
 def update_display():
-    logging.info("init and Clear")
+    logging.debug("init and Clear")
     epd.init()
     epd.Clear(0xFF)
 
@@ -64,18 +61,57 @@ def update_display():
     epd.display(epd.getbuffer(image))
     time.sleep(2)
 
-    logging.info("Goto Sleep...")
+    logging.debug("Goto Sleep...")
     epd.sleep()
 
-try:
+def button1_pressed(channel):
+    print("Button 1 pressed")
+
+
+def button2_pressed(channel):
+    print("Button 2 pressed")
+
+
+def button3_pressed(channel):
+    print("Button 3 pressed")
+
+
+def button4_pressed(channel):
+    print("Button 4 pressed")
+
+def setup_callbacks():
+    GPIO.setup(BUTTON1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    GPIO.setup(BUTTON2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    GPIO.setup(BUTTON3, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    GPIO.setup(BUTTON4, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    # TODO: Not working, no event seen
+    GPIO.add_event_detect(BUTTON1, GPIO.RISING, callback=button1_pressed)
+    GPIO.add_event_detect(BUTTON2, GPIO.RISING, callback=button2_pressed)
+    GPIO.add_event_detect(BUTTON3, GPIO.RISING, callback=button3_pressed)
+    GPIO.add_event_detect(BUTTON4, GPIO.RISING, callback=button4_pressed)
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+
+    # Initial the dht device, with data pin connected to:
+    logging.info("Starting DHT22 humidity sensor")
+    dhtDevice = adafruit_dht.DHT22(board.D21)
+
+    logging.info("Starting ePaper Displayer")
+    epd = epd2in7.EPD()
+
+    logging.info("Setting up ePaper HAT buttons")
+    setup_callbacks()
+
     while True:
-        update_display()
-        time.sleep(180)
+        try:
+            update_display()
+            time.sleep(180)
 
-except IOError as e:
-    logging.info(e)
+        except IOError as e:
+            logging.info(e)
 
-except KeyboardInterrupt:
-    logging.info("ctrl + c:")
-    epd2in7.epdconfig.module_exit()
-    exit()
+        except KeyboardInterrupt:
+            logging.info("ctrl + c:")
+            epd2in7.epdconfig.module_exit()
+            exit()

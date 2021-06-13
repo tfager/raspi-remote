@@ -18,7 +18,8 @@ actions = {"music": "Play Music",
            "livetv": "Live TV",
            "drums": "Drums",
            "chromecast": "Chromecast",
-           "tv_off": "TV Off"
+           "tv_off": "TV Off",
+           "hbo": "HBO"
            }
 
 @app.route("/")
